@@ -11,10 +11,13 @@
 #include <QTextEdit>
 #include <QApplication>
 #include <QPalette>
+#include <QPlainTextEdit>
+#include <QString>
+#include <QHBoxLayout>
 
 namespace GUI {
   class Window {
   public:
-      void drawMain(int argc, char *argv[]);
+      void drawMain(int argc, char *argv[], std::string text);
   };
 }

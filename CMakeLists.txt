@@ -10,7 +10,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(SOURCES
   src/808s.cpp
   src/GUI.cpp
-  src/logic.cpp
+  src/PieceTable.cpp
+  src/FileHandler.cpp
 )
 
 add_executable(808s ${SOURCES})

@@ -1,15 +1,24 @@
 #include "GUI.hpp"
 
-void GUI::Window::drawMain(int argc,char *argv[]){
+void GUI::Window::drawMain(int argc,char *argv[], std::string text){
   QApplication app(argc, argv);
 
-  QMainWindow window;
+  QWidget *window = new QWidget;
 
-  window.setWindowTitle("808s");
-  window.resize(800,600);
+  QHBoxLayout *layout = new QHBoxLayout(window);
 
-  app.setStyleSheet("QMainWindow {background-color: rgba(0,0,0,100)}");
+  window->setWindowTitle("808s");
+  window->resize(800,600);
 
-  window.show();
+  QString myQString = QString::fromStdString(text);
+
+  QPlainTextEdit *plainTextEdit = new QPlainTextEdit(window);
+  plainTextEdit->setPlainText(myQString);
+
+  layout->addWidget(plainTextEdit);
+
+  app.setStyleSheet("QWidget {background-color: rgba(0,0,0,50); font-size: 24px; color: white;}");
+
+  window->show();
   app.exec();
 }
