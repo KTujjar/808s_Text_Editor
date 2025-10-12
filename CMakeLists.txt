@@ -12,6 +12,7 @@ set(SOURCES
   src/GUI.cpp
   src/PieceTable.cpp
   src/FileHandler.cpp
+  src/test.cpp
 )
 
 add_executable(808s ${SOURCES})

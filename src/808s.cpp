@@ -1,18 +1,20 @@
 #include <iostream>
 #include "GUI.hpp"
-#include "logic.hpp"
+#include "FileHandler.hpp"
+#include "PieceTable.hpp"
+#include "test.hpp"
 
 int main(int argc, char *argv[])
 {
 
-  logic::FileHandler fileHandler;
+  FileHandler fileHandler;
+
+
   if(fileHandler.openFile("/home/khaled/Cpp/Projects/808s/hello.txt"))
   {
-    GUI::Window view;
-    view.drawMain(argc,argv,fileHandler.getFileContents());
-
-    // std::cout << view.getEditedText();
-    // std::cout << fileHandler.getFileContents();
+    PieceTable pt(fileHandler.getFileContents());
+    Test test;
+    test.testloop();
   }
   else{
     std::cout << "Error OpeningFile" << std::endl;
