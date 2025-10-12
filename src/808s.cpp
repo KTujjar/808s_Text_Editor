@@ -10,6 +10,9 @@ int main(int argc, char *argv[])
   {
     GUI::Window view;
     view.drawMain(argc,argv,fileHandler.getFileContents());
+
+    // std::cout << view.getEditedText();
+    // std::cout << fileHandler.getFileContents();
   }
   else{
     std::cout << "Error OpeningFile" << std::endl;
