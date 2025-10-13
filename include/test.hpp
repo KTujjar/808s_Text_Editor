@@ -4,7 +4,7 @@
 
 class Test{
   public:
-    void testloop();
+    void testloop(std::string orig);
 
   private:
 };

@@ -12,9 +12,8 @@ int main(int argc, char *argv[])
 
   if(fileHandler.openFile("/home/khaled/Cpp/Projects/808s/hello.txt"))
   {
-    PieceTable pt(fileHandler.getFileContents());
     Test test;
-    test.testloop();
+    test.testloop(fileHandler.getFileContents());
   }
   else{
     std::cout << "Error OpeningFile" << std::endl;

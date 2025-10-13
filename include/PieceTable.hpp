@@ -7,6 +7,8 @@
 class PieceTable{
   public:
     PieceTable(std::string orig);
+    void handleInsert(int idx, std::string text);
+    void handleDelete(int start, int length);
 
   private:
     //original buffer
