@@ -1,7 +1,5 @@
 #include <iostream>
-#include "GUI.hpp"
 #include "FileHandler.hpp"
-#include "PieceTable.hpp"
 #include "test.hpp"
 
 int main(int argc, char *argv[])

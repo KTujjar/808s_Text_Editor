@@ -3,12 +3,12 @@
 #include <vector>
 #include <string>
 
-
 class PieceTable{
   public:
     PieceTable(std::string orig);
     void handleInsert(int idx, std::string text);
     void handleDelete(int start, int length);
+    void printPieces();
 
   private:
     //original buffer
@@ -33,7 +33,7 @@ class PieceTable{
 
     std::vector<Piece> pieces;
 
-    void insertPiece(int idx, std::string text, Piece::BufferType src);
+    void insertPiece(int idx, int length, Piece::BufferType src);
     void deletePiece(int beginIdx, int endIdx);
     void replacePiece(int beginIdx, int endIdx, std::string replacement);
 };
