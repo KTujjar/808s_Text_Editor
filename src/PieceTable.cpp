@@ -11,32 +11,37 @@ void PieceTable::handleInsert(int idx, std::string text)
 
   pieces.clear();
 
-  add = text;
+  add.append(text);
 
   Piece addPiece;
-  addPiece.start = idx;
+  addPiece.start = add.size() - text.size();
   addPiece.length = text.length();
   addPiece.source = Piece::BufferType::ADD;
 
   bool pieceAdded = false;
+  int docIdx = 0;
 
+  //add idx variable to track
   for(Piece i : temp)
   {
-    if(i.start + i.length < idx && pieceAdded == false){
+    if(pieceAdded || i.source == Piece::BufferType::ADD){
       insertPiece(i.start, i.length, i.source);
     }
-    else if(i.start > idx){
+    else if(!pieceAdded && docIdx + i.length < idx){
+      insertPiece(i.start, i.length, i.source);
+    }
+    else if(!pieceAdded && docIdx >= idx){
       insertPiece(addPiece.start, addPiece.length, addPiece.source);
       insertPiece(i.start, i.length, i.source);
       pieceAdded = true;
     }
-    else if(i.start + i.length > idx && pieceAdded == false){
-
-      insertPiece(i.start,idx - i.start, Piece::BufferType::ORIGINAL);
+    else if(!pieceAdded && docIdx + i.length > idx){
+      insertPiece(i.start, idx-i.start, i.source);
       insertPiece(addPiece.start, addPiece.length, addPiece.source);
-      insertPiece((addPiece.start + addPiece.length), ((i.start + i.length + addPiece.length) -
-                  (addPiece.start + addPiece.length)), Piece::BufferType::ORIGINAL);
+      insertPiece(idx-i.start, i.length - (idx - i.start), i.source);
+      pieceAdded = true;
     }
+    docIdx += i.length;
   }
 }
 

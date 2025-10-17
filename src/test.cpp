@@ -3,22 +3,6 @@
 
 std::vector<std::string> handleInput(std::string input)
 {
-  // std::vector<std::string> result = {"","",""};
-  //   int resultIdx = 0;
-  //   for(char c : input){
-  //     if(resultIdx == result.size())
-  //     {
-  //       std::cout << "too many inputs" << std::endl;
-  //       return {""};
-  //     }
-  //     if(c != ' '){
-  //       result[resultIdx] += c;
-  //     }
-  //     else{
-  //       resultIdx++;
-  //     }
-  //   }
-
   std::istringstream iss(input);
   std::vector<std::string> result{std::istream_iterator<std::string>{iss}, {}};
 
@@ -37,7 +21,7 @@ void Test::testloop(std::string orig)
   while(true)
   {
     std::string input;
-    std::cout<< "\ni: insert, d: delete\n"<< "insert <position> <text>\n" << "delete <start> <length>\n" << std::endl;
+    std::cout<< "\ni: insert, d: delete\n"<< "insert <index> <text>\n" << "delete <start> <length>\n" << std::endl;
     std::getline(std::cin, input);
     std::vector<std::string> commands = handleInput(input);
 
