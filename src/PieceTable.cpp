@@ -8,6 +8,7 @@ PieceTable::PieceTable(std::string orig){
 void PieceTable::handleInsert(int idx, std::string text){
   std::vector<Piece> temp = pieces;
 
+  //might be a better way where i create temp and loop through pieces. adding to temp then make pieces temp.
   pieces.clear();
 
   add.append(text);
@@ -20,8 +21,7 @@ void PieceTable::handleInsert(int idx, std::string text){
   bool pieceAdded = false;
   int docIdx = 0;
 
-  for(Piece i : temp)
-  {
+  for(Piece i : temp){
     if(pieceAdded || i.source == Piece::BufferType::ADD){
       insertPiece(i.start, i.length, i.source);
     }
@@ -41,6 +41,79 @@ void PieceTable::handleInsert(int idx, std::string text){
     }
     docIdx += i.length;
   }
+}
+
+void PieceTable::handleDelete(int start, int length){
+  std::vector<Piece> temp;
+
+  int docIdx = 0;
+
+  int leftPos = start;
+  int rightPos = start + length;
+
+  for(Piece i : pieces){
+    if(docIdx <= rightPos && docIdx + i.length > leftPos){ //checks overlap
+      if(docIdx == leftPos && docIdx + i.length == rightPos){
+        continue;
+      }
+      else if(docIdx < leftPos && docIdx + i.length > rightPos){
+        Piece newPiece;
+        //left piece
+        newPiece.start = i.start;
+        newPiece.length = leftPos - docIdx;
+        newPiece.source = i.source;
+        temp.emplace_back(newPiece);
+
+        //right piece
+        newPiece.start = rightPos - docIdx;
+        newPiece.length = (docIdx + i.length) - rightPos;
+        newPiece.source = i.source;
+        temp.emplace_back(newPiece);
+      }
+      else if(docIdx <= leftPos && docIdx + i.length < rightPos){
+        Piece newPiece;
+        //left piece
+        newPiece.start = i.start;
+        newPiece.length = leftPos - docIdx;
+        newPiece.source = i.source;
+        temp.emplace_back(newPiece);
+        leftPos += (i.length - newPiece.length);
+        std::cout << "New Left Pos: "<< leftPos << std::endl;
+      }
+      else if(docIdx >= leftPos && docIdx + i.length < rightPos){
+
+        //do i just continue here?
+
+        // Piece newPiece;
+        // //left piece
+        // newPiece.start = i.start;
+        // newPiece.length = leftPos - docIdx;
+        // newPiece.source = i.source;
+        // temp.emplace_back(newPiece);
+        //
+        // //right piece
+        // newPiece.start = rightPos - docIdx;
+        // newPiece.length = (docIdx + i.length) - rightPos;
+        // newPiece.source = i.source;
+        // temp.emplace_back(newPiece);
+        continue;
+      }
+      else if(docIdx >= leftPos && docIdx + i.length > rightPos){
+        Piece newPiece;
+        newPiece.start = rightPos - docIdx;
+        newPiece.length = (docIdx + i.length) - rightPos;
+        newPiece.source = i.source;
+        temp.emplace_back(newPiece);
+      }
+    }
+    else{
+      temp.emplace_back(i);
+    }
+
+    docIdx += i.length;
+  }
+
+  pieces = temp;
 }
 
 void PieceTable::insertPiece(int idx, int length, Piece::BufferType src){
@@ -74,12 +147,4 @@ void PieceTable::handleSave(std::ofstream *file){
       *file << add.substr(i.start, i.length);
     }
   }
-}
-
-void PieceTable::handleDelete(int start, int length){
-
-}
-
-void PieceTable::deletePiece(int beginIdx, int endIdx){
-
 }

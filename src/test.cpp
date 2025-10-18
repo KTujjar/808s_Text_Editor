@@ -42,8 +42,12 @@ void Test::testloop(FileHandler *file)
 
       int start = std::stoi(commands[1]);
       int length = std::stoi(commands[2]);
-
+      std::cout << "Before Delete:" << std::endl;
+      pt.printPieces();
       pt.handleDelete(start, length);
+      std::cout << "After Delete:" << std::endl;
+      pt.printPieces();
+
     }
     else if(commands[0] == "s"){
       if(file->saveFile(&pt)){
