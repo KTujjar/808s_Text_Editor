@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 
@@ -8,6 +9,7 @@ class PieceTable{
     PieceTable(std::string orig);
     void handleInsert(int idx, std::string text);
     void handleDelete(int start, int length);
+    void handleSave(std::ofstream *file);
     void printPieces();
 
   private:

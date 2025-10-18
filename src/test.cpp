@@ -1,5 +1,4 @@
 #include "test.hpp"
-#include "PieceTable.hpp"
 
 std::vector<std::string> handleInput(std::string input)
 {
@@ -15,37 +14,45 @@ std::vector<std::string> handleInput(std::string input)
   return result;
 }
 
-void Test::testloop(std::string orig)
+void Test::testloop(FileHandler *file)
 {
+  std::string orig = file->getFileContents();
   PieceTable pt(orig);
+
   while(true)
   {
     std::string input;
-    std::cout<< "\ni: insert, d: delete\n"<< "insert <index> <text>\n" << "delete <start> <length>\n" << std::endl;
+    std::cout<< "\ni: insert, d: delete s: save\n"<< "insert <index> <text>\n" << "delete <start> <length>\n" << std::endl;
     std::getline(std::cin, input);
     std::vector<std::string> commands = handleInput(input);
 
-    if(commands.size() < 3 || commands[0] == "" || commands[1] == "" || commands[2] == "")
-    {
-      std::cout << "Invalid Input" << std::endl;
-      continue;
-    }
 
     if(commands[0] == "i"){
 
       std::string text = commands[2];
       int position = std::stoi(commands[1]);
 
+      std::cout << "\nBefore Insert:" << std::endl;
       pt.printPieces();
       pt.handleInsert(position, text);
+      std::cout << "\nAfter Insert:" << std::endl;
       pt.printPieces();
     }
-    else if(commands[0] == "h") {
+    else if(commands[0] == "d") {
 
       int start = std::stoi(commands[1]);
       int length = std::stoi(commands[2]);
 
       pt.handleDelete(start, length);
+    }
+    else if(commands[0] == "s"){
+      if(file->saveFile(&pt)){
+        std::cout << "File Saved" << std::endl;
+        break;
+      }
+      else{
+        std::cout << "File could not be saved" << std::endl;
+      }
     }
     else{
       std::cout << "Invalid Input" << std::endl;

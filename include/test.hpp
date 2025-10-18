@@ -2,12 +2,13 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
-
+#include "FileHandler.hpp"
+#include "PieceTable.hpp"
 
 
 class Test{
   public:
-    void testloop(std::string orig);
+    void testloop(FileHandler *file);
 
   private:
 };

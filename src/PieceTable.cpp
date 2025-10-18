@@ -5,8 +5,7 @@ PieceTable::PieceTable(std::string orig){
   insertPiece(0, original.size(), Piece::BufferType::ORIGINAL);
 }
 
-void PieceTable::handleInsert(int idx, std::string text)
-{
+void PieceTable::handleInsert(int idx, std::string text){
   std::vector<Piece> temp = pieces;
 
   pieces.clear();
@@ -21,7 +20,6 @@ void PieceTable::handleInsert(int idx, std::string text)
   bool pieceAdded = false;
   int docIdx = 0;
 
-  //add idx variable to track
   for(Piece i : temp)
   {
     if(pieceAdded || i.source == Piece::BufferType::ADD){
@@ -45,8 +43,15 @@ void PieceTable::handleInsert(int idx, std::string text)
   }
 }
 
-void PieceTable::printPieces()
-{
+void PieceTable::insertPiece(int idx, int length, Piece::BufferType src){
+  Piece temp;
+  temp.length = length;
+  temp.source = src;
+  temp.start = idx;
+  pieces.emplace_back(temp);
+}
+
+void PieceTable::printPieces(){
   for(Piece i : pieces)
   {
     std::cout << "start: " << i.start << " length: " << i.length;
@@ -60,20 +65,18 @@ void PieceTable::printPieces()
   std::cout << "\n" << std::endl;
 }
 
-void PieceTable::handleDelete(int start, int length)
-{
-
+void PieceTable::handleSave(std::ofstream *file){
+  for(Piece i : pieces){
+    if(i.source == Piece::BufferType::ORIGINAL){
+      *file << original.substr(i.start, i.length);
+    }
+    else {
+      *file << add.substr(i.start, i.length);
+    }
+  }
 }
 
-void PieceTable::insertPiece(int idx, int length, Piece::BufferType src){
-  Piece temp;
-  temp.length = length;
-  temp.source = src;
-  temp.start = idx;
-  pieces.emplace_back(temp);
-}
-
-void PieceTable::replacePiece(int beginIdx, int endIdx, std::string replacement){
+void PieceTable::handleDelete(int start, int length){
 
 }
 
