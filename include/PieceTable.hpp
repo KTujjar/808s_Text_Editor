@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 class PieceTable{
   public:
@@ -18,6 +19,9 @@ class PieceTable{
 
     //add buffer
     std::string add;
+
+    int documentLength = 0;
+
 
     //piece Descriptor struct
     struct Piece{

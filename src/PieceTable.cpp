@@ -2,6 +2,7 @@
 
 PieceTable::PieceTable(std::string orig){
   original = orig;
+  documentLength += orig.length();
   insertPiece(0, original.size(), Piece::BufferType::ORIGINAL);
 }
 
@@ -20,6 +21,8 @@ void PieceTable::handleInsert(int idx, std::string text){
 
   bool pieceAdded = false;
   int docIdx = 0;
+
+  idx = std::clamp(idx, 0, documentLength - 1);
 
   for(Piece i : temp){
     if(pieceAdded || i.source == Piece::BufferType::ADD){
@@ -41,6 +44,7 @@ void PieceTable::handleInsert(int idx, std::string text){
     }
     docIdx += i.length;
   }
+  documentLength += text.length();
 }
 
 void PieceTable::handleDelete(int start, int length){
@@ -54,9 +58,11 @@ void PieceTable::handleDelete(int start, int length){
   for(Piece i : pieces){
     if(docIdx <= rightPos && docIdx + i.length > leftPos){ //checks overlap
       if(docIdx == leftPos && docIdx + i.length == rightPos){
+        std::cout << "0" << std::endl;
         continue;
       }
       else if(docIdx < leftPos && docIdx + i.length > rightPos){
+        std::cout << "1" << std::endl;
         Piece newPiece;
         //left piece
         newPiece.start = i.start;
@@ -70,35 +76,23 @@ void PieceTable::handleDelete(int start, int length){
         newPiece.source = i.source;
         temp.emplace_back(newPiece);
       }
-      else if(docIdx <= leftPos && docIdx + i.length < rightPos){
+      else if(docIdx < leftPos && docIdx + i.length < rightPos){
+        std::cout << "2" << std::endl;
         Piece newPiece;
         //left piece
         newPiece.start = i.start;
         newPiece.length = leftPos - docIdx;
         newPiece.source = i.source;
         temp.emplace_back(newPiece);
-        leftPos += (i.length - newPiece.length);
-        std::cout << "New Left Pos: "<< leftPos << std::endl;
+        // leftPos += (i.length - newPiece.length);
       }
-      else if(docIdx >= leftPos && docIdx + i.length < rightPos){
+      else if(docIdx >= leftPos && docIdx + i.length <= rightPos){
+        std::cout << "3" << std::endl;
 
-        //do i just continue here?
-
-        // Piece newPiece;
-        // //left piece
-        // newPiece.start = i.start;
-        // newPiece.length = leftPos - docIdx;
-        // newPiece.source = i.source;
-        // temp.emplace_back(newPiece);
-        //
-        // //right piece
-        // newPiece.start = rightPos - docIdx;
-        // newPiece.length = (docIdx + i.length) - rightPos;
-        // newPiece.source = i.source;
-        // temp.emplace_back(newPiece);
         continue;
       }
       else if(docIdx >= leftPos && docIdx + i.length > rightPos){
+        std::cout << "4" << std::endl;
         Piece newPiece;
         newPiece.start = rightPos - docIdx;
         newPiece.length = (docIdx + i.length) - rightPos;
@@ -107,6 +101,7 @@ void PieceTable::handleDelete(int start, int length){
       }
     }
     else{
+      std::cout << "5" << std::endl;
       temp.emplace_back(i);
     }
 
