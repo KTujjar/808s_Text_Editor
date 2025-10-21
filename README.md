@@ -19,5 +19,5 @@ The editor uses the **Piece Table** technique:
 - The *original buffer* holds the initial file content.
 - The *add buffer* stores newly inserted text.
 - A list of *pieces* references spans of text from each buffer.
-- Edits only modify the piece table, not the text itself — ensuring efficient updates.
+- Edits only modify the piece table, not the text itself which ensures efficient updates.
 
