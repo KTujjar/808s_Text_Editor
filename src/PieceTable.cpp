@@ -143,3 +143,16 @@ void PieceTable::handleSave(std::ofstream *file){
     }
   }
 }
+
+std::string PieceTable::getFullText(){
+  std::string text = "";
+  for(Piece i : pieces){
+    if(i.source == Piece::BufferType::ORIGINAL){
+      text += original.substr(i.start, i.length);
+    }
+    else {
+      text += add.substr(i.start, i.length);
+    }
+  }
+  return text;
+}

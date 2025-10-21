@@ -7,11 +7,14 @@
 
 class PieceTable{
   public:
+    PieceTable() = default;
     PieceTable(std::string orig);
     void handleInsert(int idx, std::string text);
     void handleDelete(int start, int length);
     void handleSave(std::ofstream *file);
     void printPieces();
+    std::string getFullText();
+    bool isEmpty() const {return documentLength == 0;}
 
   private:
     //original buffer
