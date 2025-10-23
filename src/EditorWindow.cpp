@@ -6,7 +6,7 @@ EditorView::EditorView(QWidget *parent)
 {
   setWordWrapMode(QTextOption::NoWrap);
   setFont(QFont("Consolas", 12));
-  setReadOnly(true);
+  setReadOnly(false);
 }
 
 void EditorView::setModel(PieceTable *pt){
@@ -31,7 +31,7 @@ void EditorView::keyPressEvent(QKeyEvent * e){
   }
   switch(e->key()){
     case Qt::Key_Left: cursorIdx = std::max(0, cursorIdx - 1); refresh(); return;
-    case Qt::Key_Right: cursorIdx = std::min<int>(static_cast<int>(model->getFullText().size()), cursorIdx + 1); refresh(); return;
+    case Qt::Key_Right: cursorIdx = std::min<int>(static_cast<int>(model->getFullText().size() - 1), cursorIdx + 1); refresh(); return;
     case Qt::Key_Backspace:
       if (cursorIdx > 0) emit deleteRequested(cursorIdx - 1, cursorIdx);
         cursorIdx = std::max(0, cursorIdx - 1);
